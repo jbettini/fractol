@@ -6,6 +6,10 @@ int	key_hook(int key, void *var)
 	if (key == 53)
 		exit(0);
 	else if (key == 13)
+        {
+         Var->zoom += 20;
+         Var->iter_max += 20;
+        }
 	return (0);
 }
 void	*mandelbrot(int *color)
