@@ -1,28 +1,28 @@
 #include "fractol.h"
 
-int	key_hook(int key, void *var)
+int	key_hook(int key, t_var *var)
 {
-	var = (t_var *)var;
 	if (key == 53)
+	{
+		mlx_destroy_window(var->mlx, var->window);
+		free(var);
 		exit(0);
-	else if (key == 13)
-        {
-         Var->zoom += 20;
-         Var->iter_max += 20;
-        }
+	}
+	if (key == 13)
+	{
+		var->zoom += 20;
+	//	var->iter_max += 20;
+	//	var->xmax += 100;
+	//	printf("itermax = %d \n", var->iter_max);
+	}
+//	printf("key = %d\n",key);
 	return (0);
 }
-void	*mandelbrot(int *color)
+void	*mandelbrot(int *color, t_var *var)
 {
 	float	x;
 	float	y;
-	t_var	*var;
-	var = malloc(sizeof(t_var));
-	if(!var)
-		return (NULL);
-	var = mandel_init(var);
-	var->mlx = mlx_init();
-	var->window = mlx_new_window(var->mlx, var->xmax, var->ymax, "Mandelbrot");
+	
 	y = -1;
 	while (++y < var->ymax)
 	{
@@ -35,8 +35,8 @@ void	*mandelbrot(int *color)
 				mlx_pixel_put(var->mlx, var->window, x, y, color[var->iter]);
 		}
 	}
-	mlx_key_hook(var->window, key_hook, (void *)var);
-	mlx_loop(var->mlx);
+	mlx_string_put(var->mlx, var->window, 15, 15, 0x00000000, "Ensemble de Mandelbrot");
+	//mlx_string_put(var->mlx, var->window, 10, 10, 0x00000000, ft_itoa(var->iter));
 }
 
 int	mandel_alg(t_var *var, float x, float y)
@@ -79,9 +79,40 @@ t_var	*mandel_init(t_var *var)
 	var->ymax = (var->y2 - var->y1) * var->zoom;
 	return (var);
 }
-
-void main(void)
+t_var	*alloc_struct(t_var *var)
 {
-	int		color[5] = {0xF09E6C, 0xFAF378, 0x71E3A3, 0x708FFA, 0xE653C5};
-	mandelbrot(color);
+	var = malloc(sizeof(t_var));
+	if(!var)
+		return (NULL); 
+	else 
+		return (var);
+}
+int main(int ac, char **av)
+{
+	int		color[50] = {
+		0xF09E6C, 0xFAF378, 0x71E3A3, 0x708FFA, 0xE653C5,
+		0xF09E6C, 0xFAF378, 0x71E3A3, 0x708FFA, 0xE653C5,
+		0xF09E6C, 0xFAF378, 0x71E3A3, 0x708FFA, 0xE653C5,
+		0xF09E6C, 0xFAF378, 0x71E3A3, 0x708FFA, 0xE653C5,
+		0xF09E6C, 0xFAF378, 0x71E3A3, 0x708FFA, 0xE653C5,
+		0xF09E6C, 0xFAF378, 0x71E3A3, 0x708FFA, 0xE653C5,
+		0xF09E6C, 0xFAF378, 0x71E3A3, 0x708FFA, 0xE653C5,
+		0xF09E6C, 0xFAF378, 0x71E3A3, 0x708FFA, 0xE653C5,
+		0xF09E6C, 0xFAF378, 0x71E3A3, 0x708FFA, 0xE653C5,
+		0xF09E6C, 0xFAF378, 0x71E3A3, 0x708FFA, 0xE653C5
+	};
+	t_var	*var;
+
+	var = alloc_struct(var);
+	if (!var)
+		return (1);
+	if (av[1])
+	{
+		var = mandel_init(var);
+		var->mlx = mlx_init();
+		var->window = mlx_new_window(var->mlx, var->xmax, var->ymax, "Mandelbrot");	
+		mandelbrot(color, var);
+		mlx_key_hook(var->window, key_hook, &var);
+		mlx_loop(var->mlx);
+	}
 }

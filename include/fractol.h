@@ -5,6 +5,7 @@
 # include "stdio.h"
 # include "stdlib.h"
 # include "mlx.h"
+# include "libft.h"
 
 #define MLX var->mlx
 #define WIN var->window
@@ -34,6 +35,9 @@ typedef struct s_var
 
 t_var	*mandel_init(t_var *var);
 t_var	*set_alg(t_var *var, float x, float y);
-int	key_hook(int key, void *param);
+int	key_hook(int key, t_var *var);
 int	mandel_alg(t_var *var, float x, float y);
+
+
+
 #endif
