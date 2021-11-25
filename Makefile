@@ -3,9 +3,10 @@ CFLAGS	=	-Wall -Wextra -Werror
 NAME	=	fractol
 I_DIR	=	include
 L_DIR	=	lib
-LIB		=	-lmlx
+LIB		=	-lmlx -lft
 
 SRC		=	src/main.c	\
+			src/set.c	\
 
 OBJ		=	$(SRC:%.c=%.o)
 
