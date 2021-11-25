@@ -31,12 +31,12 @@ int	mandel_alg(t_var *var, float x, float y)
 	float	tmp;
 
 	var = set_alg(var, x, y);
-	while (var->z.re * var->z.re - var->z.im * var->z.im < 4 && var->iter < var->iter_max)
+	while (((var->z.re) * (var->z.re)) + ((var->z.im) * (var->z.im)) < 4 && (var->iter) < (var->iter_max))
 	{
-		tmp = var->z.re;
-		var->z.re = var->z.re * var->z.re - var->z.im * var->z.im + var->c.re;
-		var->z.im = 2 * var->z.im * tmp + var->c.im;
-		var->iter += 1;
+		tmp = (var->z.re);
+		(var->z.re) = ((var->z.re) * (var->z.re)) - ((var->z.im) * (var->z.im)) + (var->c.re);
+		(var->z.im) = (2 * (var->z.im) * tmp) + var->c.im;
+		(var->iter) += 1;
 	}
 	if (var->iter == var->iter_max)
 		return (1);
@@ -56,12 +56,12 @@ t_var	*set_alg(t_var *var, float x, float y)
 
 t_var	*mandel_init(t_var *var)
 {
-	var->x1 = -2.1;
+	var->x1 = -3.6;
 	var->x2 = 0.6;
 	var->y1 = -1.2;
 	var->y2 = 1.2;
 	var->iter_max = 50;
-	var->zoom = 350;
+	var->zoom = 400;
 	var->xmax = (var->x2 - var->x1) * var->zoom;
 	var->ymax = (var->y2 - var->y1) * var->zoom;
 	var->color = NULL;
