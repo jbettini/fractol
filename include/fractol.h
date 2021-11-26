@@ -27,6 +27,7 @@ typedef struct s_img
 
 typedef struct s_var 
 {
+    char        name;
     void        *mlx;
     void        *window;
     int         *color;
@@ -34,7 +35,7 @@ typedef struct s_var
     float       x2;
     float       y1;
     float       y2;
-    int         iter_max;
+    float       iter_max;
     int         iter;
     float       zoom;
     float       xmax;
@@ -44,13 +45,17 @@ typedef struct s_var
     t_img       img;
 }               t_var;
 
-t_var	*mandel_init(t_var *var);
+void	dojulia(t_var *var);
+void	domandel(t_var *var);
+void	draw(t_var *var);
+int	    alg(t_var *var, float x, float y);
 t_var	*set_alg(t_var *var, float x, float y);
-int	    key_hook(int key, t_var *var);
-int	    mandel_alg(t_var *var, float x, float y);
-void	mandelbrot(t_var *var);
-int	    *color_maker(t_var *var);
-int	    mandel_alg(t_var *var, float x, float y);
+t_var	*julia_init(t_var *var);
+t_var	*mandel_init(t_var *var);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+int 	key_hook(int key, t_var *var);
+int	    *color_maker(t_var *var);
+
+
 
 #endif
