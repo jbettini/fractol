@@ -7,8 +7,8 @@
 # include "mlx.h"
 # include "libft.h"
 
-#define MLX var->mlx
-#define WIN var->window
+#define W 1000
+#define H 800
 
 typedef struct s_complexe
 {
@@ -25,6 +25,12 @@ typedef struct s_img
 	int	    	endian;
 }               t_img;
 
+typedef struct s_mouse
+{
+    int x;
+    int y;
+}              t_mouse;
+
 typedef struct s_var 
 {
     char        name;
@@ -35,7 +41,7 @@ typedef struct s_var
     float       x2;
     float       y1;
     float       y2;
-    float       iter_max;
+    int       iter_max;
     int         iter;
     float       zoom;
     float       xmax;
@@ -43,8 +49,12 @@ typedef struct s_var
     t_complexe  z;
     t_complexe  c;
     t_img       img;
+    t_mouse     mouse;
 }               t_var;
 
+
+int	    mouse_hook(int mouse, int x, int y, t_var *var);
+void	reset_cplx(t_var * var);
 void	dojulia(t_var *var);
 void	domandel(t_var *var);
 void	draw(t_var *var);

@@ -50,15 +50,16 @@ t_var	*set_alg(t_var *var, float x, float y)
 	if (var->name == 'j')
 	{
 		var->iter = 0;
-		var->z.re = x /  var->zoom + var->x1;
+		var->z.re = x / var->zoom + var->x1;
 		var->z.im = y / var->zoom + var->y1;
 		var->c.re = 0.285;
-		var->c.im = 0.01;
+		var->c.im = 0.013;
 	}
 	else if (var->name == 'm')
 	{
+
 		var->iter = 0;
-		var->c.re = x /  var->zoom + var->x1;
+		var->c.re = x / var->zoom + var->x1;
 		var->c.im = y / var->zoom + var->y1;
 		var->z.re = 0;
 		var->z.im = 0;	

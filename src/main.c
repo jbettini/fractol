@@ -32,15 +32,31 @@ int	key_hook(int key, t_var *var)
 	
 	if (key == 13)
 	{
-		var->x1 *= 0.9;
-		var->x2 /= 0.9;
-		var->y1 *= 0.9;
-		var->y2 /= 0.9;
+		var->x1 -= ((W / 2) / W);
+		var->x2 += ((W / 2) / W);
+		var->y1 -= ((H / 2) / H);
+		var->y2 += ((H / 2) / H);
 		var->zoom *= 1.25;
 		var->iter_max *= 1.5;
 	}
-		draw(var);
-	//printf("key = %d\n",key);
+	if (key == 1)
+	{
+		var->zoom /= 1.25;
+		var->iter_max /= 1.5;
+	}
+		
+	draw(var);
+	//printf("itermax = %d\n", var->iter_max);
+	printf("key = %d\n",key);
+	return (0);
+}
+
+int	mouse_hook(int mouse, int x, int y, t_var *var)
+{
+		
+	draw(var);
+	//printf("itermax = %d\n", var->iter_max);
+	printf("mouse = %d\n",mouse);
 	return (0);
 }
 
@@ -59,10 +75,10 @@ void	draw(t_var *var)
 	
 	y = -1;
 	var->color = color_maker(var);
-	while (++y < 800)
+	while (++y < H)
 	{
 		x = -1;
-		while (++x < 1000)
+		while (++x < W)
 		{
 			if (alg(var, x, y))
 				my_mlx_pixel_put(&(var->img), x, y, 0x00000000);
@@ -70,21 +86,31 @@ void	draw(t_var *var)
 				my_mlx_pixel_put(&(var->img), x, y, var->color[var->iter]);
 		}
 	}
-
+	//reset_cplx(var);
     free(var->color);
 	mlx_put_image_to_window(var->mlx, var->window, var->img.img, 0, 0);
-	mlx_string_put(var->mlx, var->window, 15, 15, 0x00000000, "Mandelbrot");
+}
+
+void	reset_cplx(t_var * var)
+{
+	var->c.im = 0;
+	var->c.re = 0;
+	var->z.im = 0;
+	var->z.re = 0;
 }
 void	domandel(t_var *var)
 {
 	var = mandel_init(var);
 	var->mlx = mlx_init();
-	var->window = mlx_new_window(var->mlx, 1000, 800, "Mandelbrot");	
-	var->img.img = mlx_new_image(var->mlx, 1000, 800); 
+	var->window = mlx_new_window(var->mlx, W, H, "Mandelbrot");	
+	var->img.img = mlx_new_image(var->mlx, W, H); 
 	var->img.addr = mlx_get_data_addr(var->img.img, &(var->img.bits_per_pixel),\
 										 &(var->img.line_length), &(var->img.endian));
 	draw(var);
 	mlx_key_hook(var->window, key_hook, var);
+	mlx_mouse_get_pos(var->window, &(var->mouse.x), &(var->mouse.y));
+	mlx_mouse_hook(var->window, mouse_hook, var);
+	mlx_string_put(var->mlx, var->window, 15, 15, 0x00FFFFFF, "Mandelbrot");
 	mlx_loop(var->mlx);	
 }
 
@@ -92,12 +118,15 @@ void	dojulia(t_var *var)
 {
 	var = julia_init(var);
 	var->mlx = mlx_init();
-	var->window = mlx_new_window(var->mlx, 1000, 800, "Mandelbrot");	
-	var->img.img = mlx_new_image(var->mlx, 1000, 800); 
+	var->window = mlx_new_window(var->mlx, W, H, "Julia");	
+	var->img.img = mlx_new_image(var->mlx, W, H); 
 	var->img.addr = mlx_get_data_addr(var->img.img, &(var->img.bits_per_pixel),\
 										 &(var->img.line_length), &(var->img.endian));
 	draw(var);
 	mlx_key_hook(var->window, key_hook, var);
+	mlx_mouse_get_pos(var->window, &(var->mouse.x), &(var->mouse.y));
+	mlx_mouse_hook(var->window, mouse_hook, var);
+	mlx_string_put(var->mlx, var->window, 15, 15, 0x00FFFFFF, "Julia");
 	mlx_loop(var->mlx);
 }
 int main(int ac, char **av)
@@ -112,5 +141,5 @@ int main(int ac, char **av)
 	else if (!ft_strcmp(av[1], "julia"))
 		dojulia(var);
 	else
-		printf("ERROR Fractal available : mandelbrot julia\n");
+		printf("ERROR fractol -h for help/nFractal available : mandelbrot julia\n");
 }

@@ -23,7 +23,9 @@ typedef struct s_list
 	struct s_list	*next;
 }				t_list;
 
-
+float   ft_flsquare(float nb);
+long	ft_square(int nb);
+float   ft_fl_recursive_power(float nb, int power);
 char	*ft_strncat(char *dest, const char *src, size_t n);
 int		ft_check_base(char *base);
 int		ft_is_prime(int nb);
