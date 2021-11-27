@@ -2,13 +2,28 @@
 # define FRACTOL_H
 
 
-# include "stdio.h"
-# include "stdlib.h"
+# include <stdio.h>
+# include <stdlib.h>
 # include "mlx.h"
 # include "libft.h"
+# include <math.h>
 
-#define W 1000
-#define H 800
+# define W           1000
+# define H           800
+# define K_RIGHT     124
+# define K_LEFT      123
+# define K_UP        126
+
+
+# define K_S         1
+# define K_Z         13
+
+
+# define K_DOWN      125
+# define M_DOWN      4
+# define M_UP        5
+# define M_RCLICK    1 
+# define M_LCLICK    2 
 
 typedef struct s_complexe
 {
@@ -36,23 +51,24 @@ typedef struct s_var
     char        name;
     void        *mlx;
     void        *window;
-    int         *color;
     float       x1;
     float       x2;
     float       y1;
     float       y2;
-    int       iter_max;
-    int         iter;
+    int         iter_max;
     float       zoom;
     float       xmax;
     float       ymax;
+    int         iter;
+    int         set;
+    int         *color;
     t_complexe  z;
     t_complexe  c;
     t_img       img;
     t_mouse     mouse;
 }               t_var;
 
-
+void	print_name(t_var *var);
 int	    mouse_hook(int mouse, int x, int y, t_var *var);
 void	reset_cplx(t_var * var);
 void	dojulia(t_var *var);
@@ -65,7 +81,9 @@ t_var	*mandel_init(t_var *var);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 int 	key_hook(int key, t_var *var);
 int	    *color_maker(t_var *var);
-
+void	zoom(t_var *var, int i);
+void	dezoom(t_var *var, int i);
+t_var	*ship_init(t_var *var);
 
 
 #endif

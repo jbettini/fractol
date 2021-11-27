@@ -9,54 +9,72 @@ int	key_hook(int key, t_var *var)
 		free(var);
 		exit(0);
 	}
-	if (key == 124) // droite
+	//move_w_arrow(key);
+	if (key == K_Z)
+		zoom(var, 0);
+	if (key == K_S && var->zoom > 0.1)
+		dezoom(var, 0);
+	//printf("%d\n", key);
+	draw(var);
+	return (0);
+}
+void	zoom(t_var *var, int i)
+{
+	if (i == 1)
 	{
-		var->x1 += 0.05;
-		var->x2 += 0.05;
-	}
-	if (key == 123) // gauche
-	{
-		var->x1 -= 0.05;
-		var->x2 -= 0.05;
-	}
-	if (key == 126) //haut
-	{
-		var->y1 -= 0.05;
-		var->y2 -= 0.05;
-	}
-	if (key == 125) //bas
-	{
-		var->y1 += 0.05;
-		var->y2 += 0.05;
-	}
-	
-	if (key == 13)
-	{
-		var->x1 -= ((W / 2) / W);
-		var->x2 += ((W / 2) / W);
-		var->y1 -= ((H / 2) / H);
-		var->y2 += ((H / 2) / H);
+		var->x1 = (var->mouse.x / var->zoom + var->x1) - (var->mouse.x / (var->zoom * 1.25));
+		var->y1 = (var->mouse.y / var->zoom + var->y1) - (var->mouse.y / (var->zoom * 1.25));
 		var->zoom *= 1.25;
 		var->iter_max *= 1.5;
 	}
-	if (key == 1)
+	else if (i == 0)
 	{
-		var->zoom /= 1.25;
-		var->iter_max /= 1.5;
+		var->x1 = ((W / 2) / var->zoom + var->x1) - ((W / 2) / (var->zoom * 1.25));
+		var->y1 = ((H / 2) / var->zoom + var->y1) - ((H / 2) / (var->zoom * 1.25));
+		var->zoom *= 1.25;
+		var->iter_max += var->zoom / 6 - var->iter_max;
 	}
-		
-	draw(var);
-	//printf("itermax = %d\n", var->iter_max);
-	printf("key = %d\n",key);
-	return (0);
 }
-
+void	dezoom(t_var *var, int i)
+{
+	if (i == 1 && var->zoom > 0.1)
+	{
+		var->x1 = (var->mouse.x / var->zoom + var->x1) - (var->mouse.x / (var->zoom / 1.25));
+		var->y1 = (var->mouse.y / var->zoom + var->y1) - (var->mouse.y / (var->zoom / 1.25));
+		var->zoom /= 1.25;
+		var->iter_max /= 1.25;
+	}
+	else if (i == 0 && var->zoom > 0.1)
+	{
+		var->x1 = ((W / 2) / var->zoom + var->x1) - ((W / 2) / (var->zoom / 1.25));
+		var->y1 = ((H / 2) / var->zoom + var->y1) - ((H / 2) / (var->zoom / 1.25));
+		var->zoom -= 1.25;
+		var->iter_max -= 1.25;
+	}
+}
+void	print_name(t_var *var)
+{
+	if (var->name == 'm')
+		mlx_string_put(var->mlx, var->window, 15, 15, 0x00000000, "Mandelbrot");
+	if (var->name == 'j')
+		mlx_string_put(var->mlx, var->window, 15, 15, 0x00000000, "Julia");
+	if (var->name == 's')
+		mlx_string_put(var->mlx, var->window, 15, 15, 0x00000000, "Burning Ship");
+}
 int	mouse_hook(int mouse, int x, int y, t_var *var)
 {
-		
+	mlx_mouse_get_pos(var->window, &(var->mouse.x), &(var->mouse.y));
+	x = var->mouse.x;
+	y = var->mouse.y;
+	
+	//if (mouse == M_LCLICK)
+	//if (mouse == M_RCLICK)
+
+	if (mouse == M_UP)
+		zoom(var, 1);
+	if (mouse == M_DOWN)
+		dezoom(var, 1);
 	draw(var);
-	//printf("itermax = %d\n", var->iter_max);
-	printf("mouse = %d\n",mouse);
 	return (0);
 }
 
@@ -83,21 +101,14 @@ void	draw(t_var *var)
 			if (alg(var, x, y))
 				my_mlx_pixel_put(&(var->img), x, y, 0x00000000);
 			else
-				my_mlx_pixel_put(&(var->img), x, y, var->color[var->iter]);
+				my_mlx_pixel_put(&(var->img), x, y, var->color[var->iter] * var->set);
 		}
 	}
-	//reset_cplx(var);
     free(var->color);
 	mlx_put_image_to_window(var->mlx, var->window, var->img.img, 0, 0);
+	print_name(var);
 }
 
-void	reset_cplx(t_var * var)
-{
-	var->c.im = 0;
-	var->c.re = 0;
-	var->z.im = 0;
-	var->z.re = 0;
-}
 void	domandel(t_var *var)
 {
 	var = mandel_init(var);
@@ -108,9 +119,8 @@ void	domandel(t_var *var)
 										 &(var->img.line_length), &(var->img.endian));
 	draw(var);
 	mlx_key_hook(var->window, key_hook, var);
-	mlx_mouse_get_pos(var->window, &(var->mouse.x), &(var->mouse.y));
 	mlx_mouse_hook(var->window, mouse_hook, var);
-	mlx_string_put(var->mlx, var->window, 15, 15, 0x00FFFFFF, "Mandelbrot");
+	mlx_string_put(var->mlx, var->window, 15, 15, 0x00000000, "Mandelbrot");
 	mlx_loop(var->mlx);	
 }
 
@@ -124,9 +134,8 @@ void	dojulia(t_var *var)
 										 &(var->img.line_length), &(var->img.endian));
 	draw(var);
 	mlx_key_hook(var->window, key_hook, var);
-	mlx_mouse_get_pos(var->window, &(var->mouse.x), &(var->mouse.y));
 	mlx_mouse_hook(var->window, mouse_hook, var);
-	mlx_string_put(var->mlx, var->window, 15, 15, 0x00FFFFFF, "Julia");
+	mlx_string_put(var->mlx, var->window, 15, 15, 0x0000000, "Julia");
 	mlx_loop(var->mlx);
 }
 int main(int ac, char **av)
@@ -140,6 +149,8 @@ int main(int ac, char **av)
 		domandel(var);
 	else if (!ft_strcmp(av[1], "julia"))
 		dojulia(var);
+	/*else if (!ft_strcmp(av[1], "burningship"))
+		doship(var);
 	else
-		printf("ERROR fractol -h for help/nFractal available : mandelbrot julia\n");
+		printf("ERROR fractol -h for help/nFractal available : mandelbrot julia\n");*/
 }
