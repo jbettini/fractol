@@ -12,7 +12,7 @@ void    fract_init(t_var *var, char c)
 }
 void    print_help(void)
 {
-    printf("Arg available :\nJulia, Mandelbrot, Burningship\n Command list :\n\
+    printf("Arg available : Julia, Mandelbrot, Burningship\n Command list :\n\
             - Use keyboard arrows for move on the program\n\
             - Z for zoom\n\
             - S for zoom out\n\
