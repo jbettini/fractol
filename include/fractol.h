@@ -45,6 +45,8 @@ typedef struct s_mouse
 {
     int x;
     int y;
+    int tmpx;
+    int tmpy;
 }              t_mouse;
 
 typedef struct s_var
@@ -80,6 +82,7 @@ void    my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void    zoom(t_var *var, int i);
 void    dezoom(t_var *var, int i);
 void    fract_init(t_var *var, char c);
+void julia_move(t_var *var, int x, int y);
 int     *color_maker(t_var *var);
 char    *ft_strjoinf(char *s1, char *s2);
 char    *ft_ftoa(float n);

@@ -14,7 +14,6 @@ void    move_w_arrow(t_var *var, int key)
 		var->set *= 2;
 	else if (key == 18 && var->set == 32)
 		var->set = 1;
-
 }
 
 int	key_hook(int key, t_var *var)
@@ -82,8 +81,10 @@ void	dezoom(t_var *var, int i)
 int	mouse_hook(int mouse, int x, int y, t_var *var)
 {
 	mlx_mouse_get_pos(var->window, &(var->mouse.x), &(var->mouse.y));
-	x = 0;
-	y = 0;
+	x = var->mouse.x;
+	y = var->mouse.y;
+	if (var->name == 'j')
+		julia_move(var, x, y);
 	if (mouse == M_LCLICK)
 		var = julia_init(var);
 	if (mouse == M_RCLICK)

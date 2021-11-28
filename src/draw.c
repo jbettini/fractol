@@ -77,7 +77,15 @@ void	draw(t_var *var)
 	mlx_put_image_to_window(var->mlx, var->window, var->img.img, 0, 0);
 	print_name(var);
 }
-/*
+
+void julia_move(t_var *var, int x, int y)
+{
+	mlx_mouse_get_pos(var->window, &(var->mouse.x), &(var->mouse.y));
+	var->c.re = (x - var->mouse.x) / W;
+	var->c.im = (y - var->mouse.y) / H;
+}
+	/*
+
 int	*color_maker(t_var *var)
 {
 	int i;
