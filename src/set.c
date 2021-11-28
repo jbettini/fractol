@@ -8,7 +8,7 @@ t_var    *set_alg(t_var *var, float x, float y)
         var->z.re = x / var->zoom + var->x1;
         var->z.im = y / var->zoom + var->y1;
         var->c.re = 0.285;
-        var->c.im = 0.01;
+        var->c.im = 0.013;
     }
     else if (var->name == 'm')
     {
@@ -21,10 +21,10 @@ t_var    *set_alg(t_var *var, float x, float y)
     else if (var->name == 's')
     {
         var->iter = 0;
-        var->c.re = x / var->zoom + var->x1;
-        var->c.im = y / var->zoom + var->y1;
-        var->z.re = 0;
-        var->z.im = 0;
+        var->z.re = x / var->zoom + var->x1;
+        var->z.im = y / var->zoom + var->y1;
+        var->c.re = 0.285;
+        var->c.im = 0.01;
     }
     return (var);
 }
@@ -36,11 +36,12 @@ t_var    *julia_init(t_var *var)
     var->x2 = 1.5;
     var->y1 = -1.5;
     var->y2 = 1.5;
-    var->iter_max = 50;
+    var->iter_max = 200;
     var->zoom = 300;
     var->mouse.x = W / 2;
     var->mouse.y = H / 2;
     var->color = NULL;
+    var->set = 1;
     return (var);
 }
 
@@ -56,6 +57,7 @@ t_var    *mandel_init(t_var *var)
     var->mouse.x = W / 2;
     var->mouse.y = H / 2;
     var->color = NULL;
+    var->set = 1;
     return (var);
 }
 
@@ -71,5 +73,6 @@ t_var    *ship_init(t_var *var)
     var->mouse.x = W / 2;
     var->mouse.y = H / 2;
     var->color = NULL;
+    var->set = 1;
     return (var);
 }

@@ -31,6 +31,8 @@ int	alg(t_var *var, float x, float y)
 		(var->z.im) = (2 * (var->z.im) * tmp) + var->c.im;
 		(var->iter) += 1;
 	}
+	if (var->iter == 0)
+		var->iter++;
 	if (var->iter == var->iter_max)
 		return (1);
 	return (0);
@@ -59,7 +61,7 @@ void	draw(t_var *var)
 			if (alg(var, x, y))
 				my_mlx_pixel_put(&(var->img), x, y, 0x00000000);
 			else
-				my_mlx_pixel_put(&(var->img), x, y, var->color[var->iter]);
+				my_mlx_pixel_put(&(var->img), x, y, var->color[var->iter] / var->iter);
 		}
 	}
     free(var->color);
@@ -79,15 +81,15 @@ int	*color_maker(t_var *var)
 		{
 
 			if (i < var->iter_max)
-				var->color[i++] = 0xE653C5;
+				var->color[i++] = 0x7a2048 / var->set;
 			if (i < var->iter_max)
-				var->color[i++] = 0xF09E6C;
+				var->color[i++] = 0x8a307f / var->set;
 			if (i < var->iter_max)
-				var->color[i++] = 0xFAF378;
+				var->color[i++] = 0x1e2761 / var->set;
 			if (i < var->iter_max)
-				var->color[i++] = 0x71E3A3; 
+				var->color[i++] = 0x408ec6 / var->set; 
 			if (i < var->iter_max)
-				var->color[i++] = 0x708FFA; 
+				var->color[i++] = 0x79a7d3 / var->set; 
 		}
 		return(var->color);
 	}

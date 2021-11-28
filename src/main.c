@@ -4,9 +4,9 @@ void    fract_init(t_var *var, char c)
 {
     if (c == 'j')
         var = julia_init(var);
-    if (c == 'm')
+    else if (c == 'm')
         var = mandel_init(var);
-    if (c == 's')
+    else if (c == 's')
         var = ship_init(var);
 
 }

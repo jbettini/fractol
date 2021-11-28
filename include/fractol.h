@@ -59,6 +59,7 @@ typedef struct s_var
     float       xmax;
     float       ymax;
     int         *color;
+    int         set;
     ull         iter;
     ull         iter_max;
     t_complexe  z;
@@ -68,9 +69,9 @@ typedef struct s_var
 }               t_var;
 
 void    print_name(t_var *var);
-int        mouse_hook(int mouse, int x, int y, t_var *var);
-
-void    dofracr(t_var *var, char c);
+int     mouse_hook(int mouse, int x, int y, t_var *var);
+void    print_help(void);
+void    dofractol(t_var *var, char c);
 void    draw(t_var *var);
 int     alg(t_var *var, float x, float y);
 t_var   *set_alg(t_var *var, float x, float y);
