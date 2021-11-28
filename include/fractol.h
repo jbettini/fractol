@@ -14,7 +14,7 @@
 # define K_LEFT      123
 # define K_UP        126
 
-
+# define FLIMIT      5000000000000000000
 # define K_S         1
 # define K_Z         13
 
@@ -58,8 +58,8 @@ typedef struct s_var
     float       zoom;
     float       xmax;
     float       ymax;
-    int         *color;
     int         set;
+    ull         color;
     ull         iter;
     ull         iter_max;
     t_complexe  z;
@@ -68,25 +68,25 @@ typedef struct s_var
     t_mouse     mouse;
 }               t_var;
 
-void    print_name(t_var *var);
+int     key_hook(int key, t_var *var);
 int     mouse_hook(int mouse, int x, int y, t_var *var);
+int     alg(t_var *var, float x, float y);
+void    print_name(t_var *var);
 void    print_help(void);
 void    dofractol(t_var *var, char c);
 void    draw(t_var *var);
-int     alg(t_var *var, float x, float y);
+void    my_mlx_pixel_put(t_img *img, int x, int y, int color);
+void    zoom(t_var *var, int i);
+void    dezoom(t_var *var, int i);
+void    fract_init(t_var *var, char c);
+int     *color_maker(t_var *var);
+char    *ft_strjoinf(char *s1, char *s2);
+char    *ft_ftoa(float n);
+char    *ft_ulltoa(ull n);
 t_var   *set_alg(t_var *var, float x, float y);
 t_var   *julia_init(t_var *var);
 t_var   *mandel_init(t_var *var);
-void    my_mlx_pixel_put(t_img *img, int x, int y, int color);
-int     key_hook(int key, t_var *var);
-int     *color_maker(t_var *var);
-void    zoom(t_var *var, int i);
-void    dezoom(t_var *var, int i);
 t_var   *ship_init(t_var *var);
-void    fract_init(t_var *var, char c);
-
-char    *ft_strjoinf(char *s1, char *s2);
-char    *ft_ftoa(float n);
 
 
 #endif

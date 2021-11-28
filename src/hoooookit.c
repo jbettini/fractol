@@ -37,15 +37,15 @@ int	key_hook(int key, t_var *var)
 
 void	zoom(t_var *var, int i)
 {
-	if (i == 1)
+	if (i == 1 && (var->zoom) < FLIMIT)
 	{
 		var->x1 = (var->mouse.x / var->zoom + var->x1) - (var->mouse.x / (var->zoom * 1.25));
 		var->y1 = (var->mouse.y / var->zoom + var->y1) - (var->mouse.y / (var->zoom * 1.25));
 		var->zoom *= 1.25;
-		if (var->zoom >= 200 )//&& var->name != 'j')
-			var->iter_max += 2;
+		if (var->zoom >= 300)
+			var->iter_max *= 1.25;
 	}
-	else if (i == 0)
+	else if (i == 0 && (var->zoom) < FLIMIT)
 	{
 		var->x1 = ((W / 2) / var->zoom + var->x1) - ((W / 2) / (var->zoom * 1.25));
 		var->y1 = ((H / 2) / var->zoom + var->y1) - ((H / 2) / (var->zoom * 1.25));
@@ -53,6 +53,8 @@ void	zoom(t_var *var, int i)
 		if (var->zoom >= 300)
 			var->iter_max *= 1.25;
 	}
+	if (!var->iter_max)
+		var->iter_max = 8000;
 }
 
 void	dezoom(t_var *var, int i)
@@ -62,26 +64,28 @@ void	dezoom(t_var *var, int i)
 		var->x1 = (var->mouse.x / var->zoom + var->x1) - (var->mouse.x / (var->zoom / 1.25));
 		var->y1 = (var->mouse.y / var->zoom + var->y1) - (var->mouse.y / (var->zoom / 1.25));
 		var->zoom /= 1.25;
-		if (var->iter_max > 50 )//&& var->name != 'j')
-			var->iter_max -= 2;
+		if (var->iter_max > 80)
+			var->iter_max /= 1.25;
 	}
 	else if (i == 0 && var->zoom > 0.1)
 	{
 		var->x1 = ((W / 2) / var->zoom + var->x1) - ((W / 2) / (var->zoom / 1.25));
 		var->y1 = ((H / 2) / var->zoom + var->y1) - ((H / 2) / (var->zoom / 1.25));
 		var->zoom /= 1.25;
-		if (var->iter_max > 40)
-			var->iter_max -= 2;
+		if (var->iter_max > 80)
+			var->iter_max /= 1.25;
 	}
+	if (var->iter_max <= 0)
+		var->iter_max = 8000;
 }
 
 int	mouse_hook(int mouse, int x, int y, t_var *var)
 {
 	mlx_mouse_get_pos(var->window, &(var->mouse.x), &(var->mouse.y));
 	if (mouse == M_LCLICK)
-		fract_init(var, 'j');
+		var = julia_init(var);
 	if (mouse == M_RCLICK)
-        fract_init(var, 'm');
+        var = mandel_init(var);
     /*if (mouse == M_MCLICK)
         var = ship_init(var);*/
 	if (mouse == M_UP)

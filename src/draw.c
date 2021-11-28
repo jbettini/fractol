@@ -5,7 +5,7 @@ void	print_name(t_var *var)
 	char	*itermax;
 	char	*zoom;
 
-	itermax = ft_strjoinf("Iteration : ", ft_itoa(var->iter_max));
+	itermax = ft_strjoinf("Iteration : ", ft_ulltoa(var->iter_max));
 	zoom = ft_strjoinf("Zoom : ", ft_ftoa(var->zoom));
 	if (var->name == 'm')
 		mlx_string_put(var->mlx, var->window, 15, 15, 0x00000000, "Mandelbrot");
@@ -24,13 +24,22 @@ int	alg(t_var *var, float x, float y)
 	float	tmp;
 
 	var = set_alg(var, x, y);
-	while (((var->z.re) * (var->z.re)) + ((var->z.im) * (var->z.im)) < 4 && (var->iter) < (var->iter_max))
-	{
-		tmp = (var->z.re);
-		(var->z.re) = ((var->z.re) * (var->z.re)) - ((var->z.im) * (var->z.im)) + (var->c.re);
-		(var->z.im) = (2 * (var->z.im) * tmp) + var->c.im;
-		(var->iter) += 1;
-	}
+	if (var->name != 's')
+		while (((var->z.re) * (var->z.re)) + ((var->z.im) * (var->z.im)) < 4 && (var->iter) < (var->iter_max))
+		{
+			tmp = (var->z.re);
+			(var->z.re) = ((var->z.re) * (var->z.re)) - ((var->z.im) * (var->z.im)) + (var->c.re);
+			(var->z.im) = (2 * (var->z.im) * tmp) + var->c.im;
+			(var->iter)++;
+		}
+	else
+		while (((var->c.re) * (var->c.re)) + ((var->c.im) * (var->c.im)) < 4 && (var->iter) < (var->iter_max))
+		{
+			tmp = (var->c.re) * (var->c.re) - (var->c.im) * (var->c.im) + var->z.re;
+			(var->c.re) = fabs(2 * (var->c.re) * (var->c.im)) + var->z.im;
+			(var->c.im) = tmp;
+			(var->iter)++;
+		}
 	if (var->iter == 0)
 		var->iter++;
 	if (var->iter == var->iter_max)
@@ -52,7 +61,7 @@ void	draw(t_var *var)
 	float	y;
 	
 	y = -1;
-	var->color = color_maker(var);
+	//var->color = color_maker(var);
 	while (++y < H)
 	{
 		x = -1;
@@ -61,14 +70,14 @@ void	draw(t_var *var)
 			if (alg(var, x, y))
 				my_mlx_pixel_put(&(var->img), x, y, 0x00000000);
 			else
-				my_mlx_pixel_put(&(var->img), x, y, var->color[var->iter] / var->iter);
+				my_mlx_pixel_put(&(var->img), x, y, var->color * var->iter / var->set);
 		}
 	}
-    free(var->color);
+    //free(var->color);
 	mlx_put_image_to_window(var->mlx, var->window, var->img.img, 0, 0);
 	print_name(var);
 }
-
+/*
 int	*color_maker(t_var *var)
 {
 	int i;
@@ -94,4 +103,4 @@ int	*color_maker(t_var *var)
 		return(var->color);
 	}
 	return(NULL);
-}
+}*/

@@ -31,11 +31,6 @@ static int    intlen(long long n)
     neg = 0;
     if (n == 0)
         return (1);
-    else if (n < 0)
-    {
-        neg += 1;
-        n *= -1;
-    }
     while (n != 0)
     {
         i++;
@@ -53,13 +48,7 @@ static char    *makeit(long long n, char *str)
     i = intlen(n);
     str[i] = 0;
     i -= 1;
-    if (n < 0)
-    {
-        n *= -1;
-        neg += 1;
-        str[0] = '-';
-    }
-    else if (n == 0)
+    if (n == 0)
         str[0] = 48;
     while (n != 0 && i >= neg)
     {
@@ -71,6 +60,19 @@ static char    *makeit(long long n, char *str)
 }
 
 char    *ft_ftoa(float n)
+{
+    char        *str;
+    long long    res;
+
+    res = n;
+    str = malloc(sizeof(char) * intlen(res) + 1);
+    if (!str)
+        return (NULL);
+    str = makeit(res, str);
+    return (str);
+}
+
+char    *ft_ulltoa(ull n)
 {
     char        *str;
     long long    res;
