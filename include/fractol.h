@@ -69,21 +69,20 @@ typedef struct s_var
 
 void    print_name(t_var *var);
 int        mouse_hook(int mouse, int x, int y, t_var *var);
-void    reset_cplx(t_var * var);
-void    dojulia(t_var *var);
-void    domandel(t_var *var);
+
+void    dofracr(t_var *var, char c);
 void    draw(t_var *var);
-int        alg(t_var *var, float x, float y);
-t_var    *set_alg(t_var *var, float x, float y);
-t_var    *julia_init(t_var *var);
-t_var    *mandel_init(t_var *var);
+int     alg(t_var *var, float x, float y);
+t_var   *set_alg(t_var *var, float x, float y);
+t_var   *julia_init(t_var *var);
+t_var   *mandel_init(t_var *var);
 void    my_mlx_pixel_put(t_img *img, int x, int y, int color);
 int     key_hook(int key, t_var *var);
-int        *color_maker(t_var *var);
+int     *color_maker(t_var *var);
 void    zoom(t_var *var, int i);
 void    dezoom(t_var *var, int i);
-t_var    *ship_init(t_var *var);
-
+t_var   *ship_init(t_var *var);
+void    fract_init(t_var *var, char c);
 
 char    *ft_strjoinf(char *s1, char *s2);
 char    *ft_ftoa(float n);

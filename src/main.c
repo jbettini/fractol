@@ -1,47 +1,39 @@
 #include "fractol.h"
 
-void    domandel(t_var *var)
+void    fract_init(t_var *var, char c)
 {
-    var = mandel_init(var);
-    var->mlx = mlx_init();
-    var->window = mlx_new_window(var->mlx, W, H, "Mandelbrot");
-    var->img.img = mlx_new_image(var->mlx, W, H);
-    var->img.addr = mlx_get_data_addr(var->img.img, &(var->img.bits_per_pixel),\
-                                         &(var->img.line_length), &(var->img.endian));
-    draw(var);
-    mlx_key_hook(var->window, key_hook, var);
-    mlx_mouse_hook(var->window, mouse_hook, var);
-    mlx_string_put(var->mlx, var->window, 15, 15, 0x00000000, "Mandelbrot");
-    mlx_loop(var->mlx);
-}
+    if (c == 'j')
+        var = julia_init(var);
+    if (c == 'm')
+        var = mandel_init(var);
+    if (c == 's')
+        var = ship_init(var);
 
-void    dojulia(t_var *var)
-{
-    var = julia_init(var);
-    var->mlx = mlx_init();
-    var->window = mlx_new_window(var->mlx, W, H, "Julia");
-    var->img.img = mlx_new_image(var->mlx, W, H);
-    var->img.addr = mlx_get_data_addr(var->img.img, &(var->img.bits_per_pixel),\
-                                         &(var->img.line_length), &(var->img.endian));
-    draw(var);
-    mlx_key_hook(var->window, key_hook, var);
-    mlx_mouse_hook(var->window, mouse_hook, var);
-    mlx_string_put(var->mlx, var->window, 15, 15, 0x0000000, "Julia");
-    mlx_loop(var->mlx);
 }
-
-void    doship(t_var *var)
+void    print_help(void)
 {
-    var = ship_init(var);
+    printf("Arg available :\nJulia, Mandelbrot, Burningship\n Command list :\n\
+            - Use keyboard arrows for move on the program\n\
+            - Z for zoom\n\
+            - S for zoom out\n\
+            - 1 for change color palette\n\
+            - Right Click for initialising Julia\n\
+            - Middle Click for initialising Burning Ship\n\
+            - Left Click for initialising Mandelbrot\n\
+            - Mouse Wheel for zoom or zoom out\n");
+}
+void    dofractol(t_var *var, char c)
+{
+    fract_init(var, c);
     var->mlx = mlx_init();
-    var->window = mlx_new_window(var->mlx, W, H, "Julia");
+    var->window = mlx_new_window(var->mlx, W, H, "Fractol");
     var->img.img = mlx_new_image(var->mlx, W, H);
     var->img.addr = mlx_get_data_addr(var->img.img, &(var->img.bits_per_pixel),\
                                          &(var->img.line_length), &(var->img.endian));
     draw(var);
     mlx_key_hook(var->window, key_hook, var);
     mlx_mouse_hook(var->window, mouse_hook, var);
-    mlx_string_put(var->mlx, var->window, 15, 15, 0x0000000, "Julia");
+    print_name(var);
     mlx_loop(var->mlx);
 }
 int main(int ac, char **av)
@@ -49,16 +41,18 @@ int main(int ac, char **av)
     t_var    *var;
 
     var = malloc(sizeof(t_var));
-    if (!var) (printf("Malloc Error"));
-        return ;
+    if (!var)
+        return (printf("Malloc Error"));
     if (ac >= 2)
     {
         if (!ft_strcmp(av[1], "mandelbrot") || !ft_strcmp(av[1], "Mandelbrot"))
-            domandel(var);
+            dofractol(var, 'm');
         else if (!ft_strcmp(av[1], "julia") || !ft_strcmp(av[1], "Julia"))
-            dojulia(var);
+            dofractol(var, 'j');
         else if (!ft_strcmp(av[1], "burningship") || !ft_strcmp(av[1], "Burningship"))
-            doship(var);
+            dofractol(var, 's');
+        else if (!ft_strcmp(av[1], "-h"))
+            print_help();
         else
             printf("ERROR \nArg available :\nJulia\nMandelbrot\nBurningship\nfractol -h for help");
         return (0);
