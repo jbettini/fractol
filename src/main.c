@@ -17,6 +17,7 @@ void    print_help(void)
             - Z for zoom\n\
             - S for zoom out\n\
             - 1 for change color palette\n\
+            - 2, 3, 4, for more color\n\
             - Right Click for initialising Julia\n\
             - Middle Click for initialising Burning Ship\n\
             - Left Click for initialising Mandelbrot\n\
@@ -36,12 +37,6 @@ void    dofractol(t_var *var, char c)
     draw(var);
     mlx_key_hook(var->window, key_hook, var);
     mlx_mouse_hook(var->window, mouse_hook, var);
-    mlx_mouse_get_pos(var->window, &(var->mouse.x), &(var->mouse.y));
-    x = var->mouse.x;
-	y = var->mouse.y;
-    mlx_mouse_get_pos(var->window, &(var->mouse.x), &(var->mouse.y));
-    if (var->name == 'j')
-		julia_move(var, x, y);
     print_name(var);
     mlx_loop(var->mlx);
 }

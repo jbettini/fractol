@@ -61,7 +61,6 @@ void	draw(t_var *var)
 	float	y;
 	
 	y = -1;
-	//var->color = color_maker(var);
 	while (++y < H)
 	{
 		x = -1;
@@ -73,7 +72,6 @@ void	draw(t_var *var)
 				my_mlx_pixel_put(&(var->img), x, y, (var->color * var->iter) / var->set);
 		}
 	}
-    //free(var->color);
 	mlx_put_image_to_window(var->mlx, var->window, var->img.img, 0, 0);
 	print_name(var);
 }
