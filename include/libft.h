@@ -23,6 +23,7 @@ typedef struct s_list
 	struct s_list	*next;
 }				t_list;
 
+typedef unsigned long long ull;
 
 char	*ft_strncat(char *dest, const char *src, size_t n);
 int		ft_check_base(char *base);

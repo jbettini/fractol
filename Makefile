@@ -7,6 +7,9 @@ LIB		=	-lmlx -lft
 
 SRC		=	src/main.c	\
 			src/set.c	\
+			src/utils.c		\
+			src/hoooookit.c \
+			src/draw.c		
 
 OBJ		=	$(SRC:%.c=%.o)
 
