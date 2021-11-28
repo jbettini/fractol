@@ -8,8 +8,8 @@ void    fract_init(t_var *var, char c)
         var = mandel_init(var);
     else if (c == 's')
         var = ship_init(var);
-
 }
+
 void    print_help(void)
 {
     printf("Arg available : Julia, Mandelbrot, Burningship\n Command list :\n\
@@ -22,8 +22,11 @@ void    print_help(void)
             - Left Click for initialising Mandelbrot\n\
             - Mouse Wheel for zoom or zoom out\n");
 }
+
 void    dofractol(t_var *var, char c)
 {
+    int x;
+    int y;
     fract_init(var, c);
     var->mlx = mlx_init();
     var->window = mlx_new_window(var->mlx, W, H, "Fractol");
@@ -33,9 +36,16 @@ void    dofractol(t_var *var, char c)
     draw(var);
     mlx_key_hook(var->window, key_hook, var);
     mlx_mouse_hook(var->window, mouse_hook, var);
+    mlx_mouse_get_pos(var->window, &(var->mouse.x), &(var->mouse.y));
+    x = var->mouse.x;
+	y = var->mouse.y;
+    mlx_mouse_get_pos(var->window, &(var->mouse.x), &(var->mouse.y));
+    if (var->name == 'j')
+		julia_move(var, x, y);
     print_name(var);
     mlx_loop(var->mlx);
 }
+
 int main(int ac, char **av)
 {
     t_var    *var;

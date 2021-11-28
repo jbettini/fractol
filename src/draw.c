@@ -70,7 +70,7 @@ void	draw(t_var *var)
 			if (alg(var, x, y))
 				my_mlx_pixel_put(&(var->img), x, y, 0x00000000);
 			else
-				my_mlx_pixel_put(&(var->img), x, y, var->color * var->iter / var->set);
+				my_mlx_pixel_put(&(var->img), x, y, (var->color * var->iter) / var->set);
 		}
 	}
     //free(var->color);
@@ -81,8 +81,13 @@ void	draw(t_var *var)
 void julia_move(t_var *var, int x, int y)
 {
 	mlx_mouse_get_pos(var->window, &(var->mouse.x), &(var->mouse.y));
-	var->c.re = (x - var->mouse.x) / W;
-	var->c.im = (y - var->mouse.y) / H;
+    x = var->mouse.x;
+	y = var->mouse.y;
+    mlx_mouse_get_pos(var->window, &(var->mouse.x), &(var->mouse.y));
+    if (var->name == 'j')
+		julia_move(var, x, y);
+	var->c.re += (x - var->mouse.x) / W;
+	var->c.im += (y - var->mouse.y) / H;
 }
 	/*
 

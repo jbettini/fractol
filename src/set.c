@@ -7,8 +7,8 @@ t_var    *set_alg(t_var *var, float x, float y)
         var->iter = 0;
         var->z.re = x / var->zoom + var->x1;
         var->z.im = y / var->zoom + var->y1;
-        var->c.re = 0.285;
-        var->c.im = 0.01;
+        var->c.re = -0.8;
+        var->c.im = 0.156;
     }
     else if (var->name == 'm')
     {
@@ -32,16 +32,16 @@ t_var    *set_alg(t_var *var, float x, float y)
 t_var    *julia_init(t_var *var)
 {
     var->name = 'j';
-    var->x1 = -1.5;
+    var->x1 = -2.5;
     var->x2 = 1.5;
-    var->y1 = -1.5;
+    var->y1 = -2;
     var->y2 = 1.5;
-    var->iter_max = 80;
-    var->zoom = 300;
+    var->iter_max = 150;
+    var->zoom = 200;
     var->mouse.x = W / 2;
     var->mouse.y = H / 2;
-    var->color = 0x556B2F;
-    var->set = 1;
+    var->color = 0x606060;
+    var->set = 32;
     return (var);
 }
 
@@ -56,8 +56,8 @@ t_var    *mandel_init(t_var *var)
     var->zoom = 300;
     var->mouse.x = W / 2;
     var->mouse.y = H / 2;
-    var->color = 0x556B2F;
-    var->set = 1;
+    var->color = 0x606060;
+    var->set = 32;
     return (var);
 }
 
@@ -72,7 +72,7 @@ t_var    *ship_init(t_var *var)
     var->zoom = 300;
     var->mouse.x = W / 2;
     var->mouse.y = H / 2;
-    var->color = 0x556B2F;
-    var->set = 1;
+    var->color = 0x606060;
+    var->set = 32;
     return (var);
 }
