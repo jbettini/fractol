@@ -23,6 +23,7 @@
 # define M_DOWN      4
 # define M_UP        5
 # define M_RCLICK    1
+# define M_MCLICK    7
 # define M_LCLICK    2
 
 typedef struct s_complexe

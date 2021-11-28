@@ -16,10 +16,10 @@ OBJ		=	$(SRC:%.c=%.o)
 all: include/fractol.h $(NAME)
 
 $(NAME): $(OBJ) 
-	$(CC) -o $(NAME) $(OBJ) -I$(I_DIR) -L$(L_DIR) $(LIB) -framework OpenGL -framework AppKit
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -I$(I_DIR) -L$(L_DIR) $(LIB) -framework OpenGL -framework AppKit
 
 %.o: %.c
-	$(CC) -o $@ -c $< -I$(I_DIR)
+	$(CC) $(CFLAGS) -o $@ -c $< -I$(I_DIR)
 
 run: all
 	./$(NAME)

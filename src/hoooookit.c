@@ -82,12 +82,14 @@ void	dezoom(t_var *var, int i)
 int	mouse_hook(int mouse, int x, int y, t_var *var)
 {
 	mlx_mouse_get_pos(var->window, &(var->mouse.x), &(var->mouse.y));
+	x = 0;
+	y = 0;
 	if (mouse == M_LCLICK)
 		var = julia_init(var);
 	if (mouse == M_RCLICK)
         var = mandel_init(var);
-    /*if (mouse == M_MCLICK)
-        var = ship_init(var);*/
+    if (mouse == M_MCLICK)
+        var = ship_init(var);
 	if (mouse == M_UP)
 		zoom(var, 1);
 	if (mouse == M_DOWN)
