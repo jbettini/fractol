@@ -8,13 +8,13 @@ void	print_name(t_var *var)
 	itermax = ft_strjoinf("Iteration : ", ft_ulltoa(var->iter_max));
 	zoom = ft_strjoinf("Zoom : ", ft_ftoa(var->zoom));
 	if (var->name == 'm')
-		mlx_string_put(var->mlx, var->window, 15, 15, 0x00000000, "Mandelbrot");
+		mlx_string_put(var->mlx, var->window, 15, 15, 0x00FFFFFF, "Mandelbrot");
 	if (var->name == 'j')
-		mlx_string_put(var->mlx, var->window, 15, 15, 0x00000000, "Julia");
+		mlx_string_put(var->mlx, var->window, 15, 15, 0x00FFFFFF, "Julia");
 	if (var->name == 's')
-		mlx_string_put(var->mlx, var->window, 15, 15, 0x00000000, "Burning Ship");
-	mlx_string_put(var->mlx, var->window, 15, 30, 0x00000000, itermax);
-	mlx_string_put(var->mlx, var->window, 15, 45, 0x00000000, zoom);
+		mlx_string_put(var->mlx, var->window, 15, 15, 0x00FFFFFF, "Burning Ship");
+	mlx_string_put(var->mlx, var->window, 15, 30, 0x00FFFFFF, itermax);
+	mlx_string_put(var->mlx, var->window, 15, 45, 0x00FFFFFF, zoom);
 	free(zoom);
 	free(itermax);
 }
@@ -76,42 +76,16 @@ void	draw(t_var *var)
 	print_name(var);
 }
 
-void julia_move(t_var *var, int x, int y)
+int julia_move(t_var *var)
 {
-	mlx_mouse_get_pos(var->window, &(var->mouse.x), &(var->mouse.y));
-    x = var->mouse.x;
-	y = var->mouse.y;
-    mlx_mouse_get_pos(var->window, &(var->mouse.x), &(var->mouse.y));
-    if (var->name == 'j')
-		julia_move(var, x, y);
-	var->c.re += (x - var->mouse.x) / W;
-	var->c.im += (y - var->mouse.y) / H;
-}
-	/*
-
-int	*color_maker(t_var *var)
-{
-	int i;
-
-	i = 0;
-	var->color = malloc(sizeof(unsigned int) * var->iter_max);
-	if(var->color)
+	if (var->name == 'j' && var->move == 1)
 	{
-		while (i < var->iter_max)
+		mlx_mouse_get_pos(var->window, &(var->mouse.tmpx), &(var->mouse.tmpy));
+		if (var->mouse.tmpx >= 0 && var->mouse.tmpx <= W && var->mouse.tmpy >= 0 && var->mouse.tmpy <= H)
 		{
-
-			if (i < var->iter_max)
-				var->color[i++] = 0x7a2048 / var->set;
-			if (i < var->iter_max)
-				var->color[i++] = 0x8a307f / var->set;
-			if (i < var->iter_max)
-				var->color[i++] = 0x1e2761 / var->set;
-			if (i < var->iter_max)
-				var->color[i++] = 0x408ec6 / var->set; 
-			if (i < var->iter_max)
-				var->color[i++] = 0x79a7d3 / var->set; 
+			var->c.re = (float)((conv_res(var->mouse.tmpx, 2) / W) - 1);
+			var->c.im = (float)((conv_res(var->mouse.tmpy, 2) / H) - 1);
 		}
-		return(var->color);
 	}
-	return(NULL);
-}*/
+	return (0);
+}

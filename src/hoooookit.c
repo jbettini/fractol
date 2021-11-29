@@ -10,6 +10,10 @@ void    move_w_arrow(t_var *var, int key)
         var->y1 -= (H / var->zoom) / 10;
     if (key == K_DOWN)
         var->y1 += (H / var->zoom) / 10;
+	if (key == K_A && var->move == 1)
+		var->move = 0;
+	else if (key == K_A && var->move == 0)
+		var->move = 1;
 }
 
 int	key_hook(int key, t_var *var)
@@ -36,7 +40,6 @@ int	key_hook(int key, t_var *var)
 		var->color = 0xDD985C;
 	if (key == 21)
 		var->color = 0x606060;
-	draw(var);
 	return (0);
 }
 
@@ -75,7 +78,7 @@ void	dezoom(t_var *var, int i)
 		var->zoom /= 1.2;
 		if (var->iter_max > 80 && var->name != 'j')
 			var->iter_max -= 5;
-		else if (var->iter_max > 30)
+		else if (var->iter_max > 150)
 			var->iter_max -= 5;
 	}
 	else if (i == 0 && var->zoom > 0.1)
@@ -85,7 +88,7 @@ void	dezoom(t_var *var, int i)
 		var->zoom /= 1.2;
 		if (var->iter_max > 80 && var->name != 'j')
 			var->iter_max -= 5;
-		else if (var->iter_max > 30)
+		else if (var->iter_max > 150)
 			var->iter_max -= 5;
 	}
 	if (var->iter_max <= 0)
@@ -107,6 +110,5 @@ int	mouse_hook(int mouse, int x, int y, t_var *var)
 		zoom(var, 1);
 	if (mouse == M_DOWN)
 		dezoom(var, 1);
-	draw(var);
 	return (0);
 }

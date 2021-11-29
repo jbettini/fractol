@@ -8,23 +8,24 @@
 # include "libft.h"
 # include <math.h>
 
-# define W           1000
-# define H           800
-# define K_RIGHT     124
-# define K_LEFT      123
-# define K_UP        126
+# define W          1000
+# define H          800
+# define K_RIGHT    124
+# define K_LEFT     123
+# define K_UP       126
 
-# define FLIMIT      5000000000000000000
-# define K_S         1
-# define K_Z         13
+# define FLIMIT     5000000000000000000
+# define K_S        1
+# define K_Z        13
+# define K_A        12
 
 
-# define K_DOWN      125
-# define M_DOWN      4
-# define M_UP        5
-# define M_RCLICK    1
-# define M_MCLICK    12334
-# define M_LCLICK    2
+# define K_DOWN     125
+# define M_DOWN     4
+# define M_UP       5
+# define M_RCLICK   1
+# define M_MCLICK   6
+# define M_LCLICK   2
 
 typedef struct s_complexe
 {
@@ -59,9 +60,8 @@ typedef struct s_var
     float       y1;
     float       y2;
     float       zoom;
-    float       xmax;
-    float       ymax;
     int         set;
+    int         move;
     ull         color;
     ull         iter;
     ull         iter_max;
@@ -74,6 +74,8 @@ typedef struct s_var
 int     key_hook(int key, t_var *var);
 int     mouse_hook(int mouse, int x, int y, t_var *var);
 int     alg(t_var *var, float x, float y);
+int     ft_control(t_var *var);
+int     julia_move(t_var *var);
 void    print_name(t_var *var);
 void    print_help(void);
 void    dofractol(t_var *var, char c);
@@ -82,11 +84,11 @@ void    my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void    zoom(t_var *var, int i);
 void    dezoom(t_var *var, int i);
 void    fract_init(t_var *var, char c);
-void julia_move(t_var *var, int x, int y);
-int     *color_maker(t_var *var);
+void    move_w_arrow(t_var *var, int key);
 char    *ft_strjoinf(char *s1, char *s2);
 char    *ft_ftoa(float n);
 char    *ft_ulltoa(ull n);
+float	conv_res(int pos, int rtmp);
 t_var   *set_alg(t_var *var, float x, float y);
 t_var   *julia_init(t_var *var);
 t_var   *mandel_init(t_var *var);

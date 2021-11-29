@@ -10,12 +10,21 @@ void    fract_init(t_var *var, char c)
         var = ship_init(var);
 }
 
+float	conv_res(int pos, int rtmp)
+{
+	float res;
+
+	res = pos * rtmp;
+	return (res);
+}
+
 void    print_help(void)
 {
     printf("Arg available : Julia, Mandelbrot, Burningship\n Command list :\n\
             - Use keyboard arrows for move on the program\n\
             - Z for zoom\n\
             - S for zoom out\n\
+            - A for stop julia variation\n\
             - 1 for change color palette\n\
             - 2, 3, 4, for more color\n\
             - Right Click for initialising Julia\n\
@@ -26,8 +35,6 @@ void    print_help(void)
 
 void    dofractol(t_var *var, char c)
 {
-    int x;
-    int y;
     fract_init(var, c);
     var->mlx = mlx_init();
     var->window = mlx_new_window(var->mlx, W, H, "Fractol");
@@ -35,8 +42,7 @@ void    dofractol(t_var *var, char c)
     var->img.addr = mlx_get_data_addr(var->img.img, &(var->img.bits_per_pixel),\
                                          &(var->img.line_length), &(var->img.endian));
     draw(var);
-    mlx_key_hook(var->window, key_hook, var);
-    mlx_mouse_hook(var->window, mouse_hook, var);
+    mlx_loop_hook(var->mlx, ft_control, var);
     print_name(var);
     mlx_loop(var->mlx);
 }
