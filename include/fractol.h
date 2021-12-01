@@ -29,8 +29,8 @@
 
 typedef struct s_complexe
 {
-    float   re;
-    float   im;
+    long double   re;
+    long double   im;
 }              t_complexe;
 
 typedef struct s_img
@@ -55,11 +55,11 @@ typedef struct s_var
     char        name;
     void        *mlx;
     void        *window;
-    float       x1;
-    float       x2;
-    float       y1;
-    float       y2;
-    float       zoom;
+    long double       x1;
+    long double       x2;
+    long double      y1;
+    long double       y2;
+    long double      zoom;
     int         set;
     int         move;
     ull         color;
@@ -88,7 +88,7 @@ void    move_w_arrow(t_var *var, int key);
 char    *ft_strjoinf(char *s1, char *s2);
 char    *ft_ftoa(float n);
 char    *ft_ulltoa(ull n);
-float	conv_res(int pos, int rtmp);
+long double	conv_res(int pos, int rtmp);
 t_var   *set_alg(t_var *var, float x, float y);
 t_var   *julia_init(t_var *var);
 t_var   *mandel_init(t_var *var);

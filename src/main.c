@@ -10,9 +10,9 @@ void    fract_init(t_var *var, char c)
         var = ship_init(var);
 }
 
-float	conv_res(int pos, int rtmp)
+long double	conv_res(int pos, int rtmp)
 {
-	float res;
+	long double res;
 
 	res = pos * rtmp;
 	return (res);
