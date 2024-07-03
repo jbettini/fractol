@@ -36,7 +36,7 @@ int	alg(t_var *var, float x, float y)
 		while (((var->c.re) * (var->c.re)) + ((var->c.im) * (var->c.im)) < 4 && (var->iter) < (var->iter_max))
 		{
 			tmp = (var->c.re) * (var->c.re) - (var->c.im) * (var->c.im) + var->z.re;
-			(var->c.re) = fabs(2 * (var->c.re) * (var->c.im)) + var->z.im;
+			(var->c.re) = fabsl(2 * (var->c.re) * (var->c.im)) + var->z.im;
 			(var->c.im) = tmp;
 			(var->iter)++;
 		}

@@ -104,11 +104,13 @@ int	mouse_hook(int mouse, int x, int y, t_var *var)
 		var = julia_init(var);
 	if (mouse == M_RCLICK)
         var = mandel_init(var);
-    if (mouse == M_MCLICK)
-        var = ship_init(var);
+    // if (mouse == M_MCLICK)
+    //     var = ship_init(var);
 	if (mouse == M_UP)
 		zoom(var, 1);
 	if (mouse == M_DOWN)
 		dezoom(var, 1);
+	(void)x;
+	(void)y;
 	return (0);
 }
